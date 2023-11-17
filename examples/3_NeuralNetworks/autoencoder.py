@@ -53,10 +53,9 @@ def encoder(x):
     # Encoder Hidden layer with sigmoid activation #1
     layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights['encoder_h1']),
                                    biases['encoder_b1']))
-    # Encoder Hidden layer with sigmoid activation #2
-    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights['encoder_h2']),
-                                   biases['encoder_b2']))
-    return layer_2
+    return tf.nn.sigmoid(
+        tf.add(tf.matmul(layer_1, weights['encoder_h2']), biases['encoder_b2'])
+    )
 
 
 # Building the decoder
@@ -64,10 +63,9 @@ def decoder(x):
     # Decoder Hidden layer with sigmoid activation #1
     layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(x, weights['decoder_h1']),
                                    biases['decoder_b1']))
-    # Decoder Hidden layer with sigmoid activation #2
-    layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1, weights['decoder_h2']),
-                                   biases['decoder_b2']))
-    return layer_2
+    return tf.nn.sigmoid(
+        tf.add(tf.matmul(layer_1, weights['decoder_h2']), biases['decoder_b2'])
+    )
 
 # Construct model
 encoder_op = encoder(X)
@@ -92,7 +90,7 @@ with tf.Session() as sess:
     # Training cycle
     for epoch in range(training_epochs):
         # Loop over all batches
-        for i in range(total_batch):
+        for _ in range(total_batch):
             batch_xs, batch_ys = mnist.train.next_batch(batch_size)
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs})

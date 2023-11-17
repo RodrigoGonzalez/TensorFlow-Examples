@@ -40,9 +40,7 @@ def multilayer_perceptron(x, weights, biases):
     # Hidden layer with RELU activation
     layer_2 = tf.add(tf.matmul(layer_1, weights['h2']), biases['b2'])
     layer_2 = tf.nn.relu(layer_2)
-    # Output layer with linear activation
-    out_layer = tf.matmul(layer_2, weights['out']) + biases['out']
-    return out_layer
+    return tf.matmul(layer_2, weights['out']) + biases['out']
 
 # Store layers weight & bias
 weights = {
@@ -75,7 +73,7 @@ with tf.Session() as sess:
         avg_cost = 0.
         total_batch = int(mnist.train.num_examples/batch_size)
         # Loop over all batches
-        for i in range(total_batch):
+        for _ in range(total_batch):
             batch_x, batch_y = mnist.train.next_batch(batch_size)
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={x: batch_x,

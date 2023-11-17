@@ -69,9 +69,7 @@ def conv_net(x, weights, biases, dropout):
     # Apply Dropout
     fc1 = tf.nn.dropout(fc1, dropout)
 
-    # Output, class prediction
-    out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
-    return out
+    return tf.add(tf.matmul(fc1, weights['out']), biases['out'])
 
 # Store layers weight & bias
 weights = {
@@ -121,9 +119,16 @@ with tf.Session() as sess:
             loss, acc = sess.run([cost, accuracy], feed_dict={x: batch_x,
                                                               y: batch_y,
                                                               keep_prob: 1.})
-            print("Iter " + str(step*batch_size) + ", Minibatch Loss= " + \
-                  "{:.6f}".format(loss) + ", Training Accuracy= " + \
-                  "{:.5f}".format(acc))
+            print(
+                (
+                    (
+                        f"Iter {str(step * batch_size)}, Minibatch Loss= "
+                        + "{:.6f}".format(loss)
+                    )
+                    + ", Training Accuracy= "
+                )
+                + "{:.5f}".format(acc)
+            )
         step += 1
     print("Optimization Finished!")
 
